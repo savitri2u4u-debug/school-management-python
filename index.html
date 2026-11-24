@@ -1,0 +1,528 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>School Management System — 30 Python Programs</title>
+<style>
+:root{--bg:#0b1020;--panel:#111a2e;--text:#e6edf7;--muted:#93a4bd;--accent:#7dd3fc;--line:#25324a}
+*{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--text);font:16px/1.5 system-ui,Arial,sans-serif}
+header{padding:22px clamp(16px,4vw,48px);background:linear-gradient(120deg,#14233d,#101827);border-bottom:1px solid var(--line);position:sticky;top:0}
+h1{font-size:clamp(20px,3vw,30px);margin:0 0 6px} .sub{color:var(--muted);font-size:14px}
+main{max-width:1200px;margin:24px auto;padding:0 16px} .toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+input{flex:1;min-width:190px;background:var(--panel);border:1px solid var(--line);color:var(--text);padding:11px 13px;border-radius:9px;font-size:15px}
+button{background:#164e63;color:white;border:0;padding:10px 14px;border-radius:9px;font-weight:600;cursor:pointer}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.panelhead{padding:11px 15px;color:var(--muted);border-bottom:1px solid var(--line);font-size:13px;display:flex;justify-content:space-between}
+pre{margin:0;padding:18px;overflow:auto;max-height:none;tab-size:4;font:13px/1.65 ui-monospace,SFMono-Regular,Consolas,monospace;color:#dbeafe;white-space:pre}
+.comment{color:#86efac} .note{color:var(--muted);margin:14px 2px;font-size:13px}
+</style>
+</head>
+<body>
+<header><h1>School Management System</h1><div class="sub">Class XII • Complete collection of 30 Python program sections</div></header>
+<main>
+<div class="toolbar">
+<input id="search" type="search" placeholder="Find a program, heading, or keyword…">
+<button onclick="document.getElementById('search').value='';filterCode()">Clear search</button>
+<button onclick="downloadSource()">Download .py</button>
+</div>
+<div class="panel">
+<div class="panelhead"><span>PYTHON SOURCE CODE</span><span>30 sections • Read-only viewer</span></div>
+<pre id="code"># SCHOOL MANAGEMENT SYSTEM — PYTHON PRACTICAL PROJECT (CLASS XII)
+# Complete single-file collection of all 30 sections from the supplied PDF.
+# The headings are written as Python comments.
+# Run this file in a Python 3 environment.
+#
+# Default admin login from the source PDF:
+# Username: admin
+# Password: 1234
+
+# Q1. Import Modules and Load Data from File
+import pickle
+import os
+
+students = {}
+teachers = {}
+books = {}
+
+def load_data():
+    global students, teachers, books
+    if os.path.exists(&quot;school.dat&quot;):
+        try:
+            with open(&quot;school.dat&quot;, &quot;rb&quot;) as f:
+                students, teachers, books = pickle.load(f)
+        except (EOFError, pickle.PickleError, ValueError):
+            print(&quot;Saved data file could not be read. Starting with empty records.&quot;)
+
+load_data()
+
+
+# Q2. Save Data to Binary File
+def save_data():
+    with open(&quot;school.dat&quot;, &quot;wb&quot;) as f:
+        pickle.dump((students, teachers, books), f)
+
+print(&quot;Data Storage Helper Ready!&quot;)
+
+
+# Q3. Admin Login
+def login():
+    print(&quot;\n===== SCHOOL ADMIN LOGIN =====&quot;)
+    username = input(&quot;Enter Username: &quot;)
+    password = input(&quot;Enter Password: &quot;)
+    if username == &quot;admin&quot; and password == &quot;1234&quot;:
+        print(&quot;\nLogin Successful!&quot;)
+        return True
+    else:
+        print(&quot;\nInvalid Username or Password!&quot;)
+        return False
+
+
+# Q4. Add New Student Admission
+def add_student():
+    print(&quot;\n===== NEW STUDENT ADMISSION =====&quot;)
+    adm_no = str(max([int(x) for x in students], default=100) + 1)
+    name = input(&quot;Enter Student Name: &quot;)
+    class_sec = input(&quot;Enter Class and Section: &quot;)
+    phone = input(&quot;Enter Parent Phone Number: &quot;)
+    students[adm_no] = {
+        &quot;name&quot;: name,
+        &quot;class&quot;: class_sec,
+        &quot;phone&quot;: phone,
+        &quot;attendance&quot;: &quot;Not Marked&quot;,
+        &quot;marks&quot;: 0,
+        &quot;fee_status&quot;: &quot;Pending&quot;
+    }
+    save_data()
+    print(&quot;Student Admitted! Admission No:&quot;, adm_no)
+
+
+# Q5. View All Students
+def view_students():
+    print(&quot;\n===== ALL REGISTERED STUDENTS =====&quot;)
+    if len(students) == 0:
+        print(&quot;No Student Records Found!&quot;)
+    else:
+        print(&quot;Adm No. | Name | Class | Phone | Fee&quot;)
+        for adm_no, d in students.items():
+            print(adm_no, &quot;|&quot;, d[&quot;name&quot;], &quot;|&quot;, d[&quot;class&quot;], &quot;|&quot;,
+                  d[&quot;phone&quot;], &quot;|&quot;, d[&quot;fee_status&quot;])
+
+
+# Q6. School Summary Report
+def school_summary():
+    print(&quot;\n===== SCHOOL SUMMARY REPORT =====&quot;)
+    total_copies = 0
+    total_salary = 0
+    for info in books.values():
+        total_copies += info[&quot;copies&quot;]
+    for info in teachers.values():
+        total_salary += info[&quot;salary&quot;]
+    print(&quot;Total Students :&quot;, len(students))
+    print(&quot;Total Teachers :&quot;, len(teachers))
+    print(&quot;Book Titles     :&quot;, len(books))
+    print(&quot;Copies in Stock :&quot;, total_copies)
+    print(&quot;Monthly Salary : Rs.&quot;, total_salary)
+
+
+# Q7. Search Student by Admission Number
+def search_student():
+    print(&quot;\n===== SEARCH STUDENT =====&quot;)
+    adm_no = input(&quot;Enter Admission Number: &quot;)
+    if adm_no in students:
+        d = students[adm_no]
+        print(&quot;Name:&quot;, d[&quot;name&quot;])
+        print(&quot;Class:&quot;, d[&quot;class&quot;])
+        print(&quot;Phone:&quot;, d[&quot;phone&quot;])
+        print(&quot;Attendance:&quot;, d[&quot;attendance&quot;])
+        print(&quot;Marks:&quot;, d[&quot;marks&quot;])
+        print(&quot;Fee Status:&quot;, d[&quot;fee_status&quot;])
+    else:
+        print(&quot;Student Not Found!&quot;)
+
+
+# Q8. Update Student Details
+def update_student():
+    print(&quot;\n===== UPDATE STUDENT DETAILS =====&quot;)
+    adm_no = input(&quot;Enter Admission Number: &quot;)
+    if adm_no in students:
+        print(&quot;1. Update Name 2. Update Class&quot;)
+        print(&quot;3. Update Phone&quot;)
+        ch = input(&quot;Enter Choice: &quot;)
+        if ch == &quot;1&quot;:
+            students[adm_no][&quot;name&quot;] = input(&quot;Enter New Name: &quot;)
+        elif ch == &quot;2&quot;:
+            students[adm_no][&quot;class&quot;] = input(&quot;Enter New Class: &quot;)
+        elif ch == &quot;3&quot;:
+            students[adm_no][&quot;phone&quot;] = input(&quot;Enter New Phone: &quot;)
+        else:
+            print(&quot;Invalid Choice!&quot;)
+            return
+        save_data()
+        print(&quot;Student Record Updated!&quot;)
+    else:
+        print(&quot;Student Not Found!&quot;)
+
+
+# Q9. Delete Student Record
+def delete_student():
+    print(&quot;\n===== DELETE STUDENT RECORD =====&quot;)
+    adm_no = input(&quot;Enter Admission Number: &quot;)
+    if adm_no in students:
+        confirm = input(&quot;Confirm delete? (yes/no): &quot;)
+        if confirm.lower() == &quot;yes&quot;:
+            del students[adm_no]
+            save_data()
+            print(&quot;Student Record Deleted!&quot;)
+        else:
+            print(&quot;Deletion Cancelled!&quot;)
+    else:
+        print(&quot;Student Not Found!&quot;)
+
+
+# Q10. Mark Student Attendance
+def mark_attendance():
+    print(&quot;\n===== MARK STUDENT ATTENDANCE =====&quot;)
+    adm_no = input(&quot;Enter Admission Number: &quot;)
+    if adm_no in students:
+        print(&quot;Student Name:&quot;, students[adm_no][&quot;name&quot;])
+        status = input(&quot;Enter Status (Present / Absent): &quot;)
+        students[adm_no][&quot;attendance&quot;] = status.title()
+        save_data()
+        print(&quot;Attendance Marked Successfully!&quot;)
+    else:
+        print(&quot;Student Not Found!&quot;)
+
+
+# Q11. View Student Attendance Report
+def view_attendance():
+    print(&quot;\n===== STUDENT ATTENDANCE REPORT =====&quot;)
+    if len(students) == 0:
+        print(&quot;No Student Records Found!&quot;)
+    else:
+        print(&quot;Adm No. | Name | Class | Attendance&quot;)
+        for adm_no, d in students.items():
+            print(adm_no, &quot;|&quot;, d[&quot;name&quot;], &quot;|&quot;, d[&quot;class&quot;], &quot;|&quot;,
+                  d[&quot;attendance&quot;])
+
+
+# Q12. Attendance Summary
+def attendance_summary():
+    print(&quot;\n===== ATTENDANCE SUMMARY =====&quot;)
+    present = 0
+    absent = 0
+    not_marked = 0
+    for d in students.values():
+        if d[&quot;attendance&quot;] == &quot;Present&quot;:
+            present += 1
+        elif d[&quot;attendance&quot;] == &quot;Absent&quot;:
+            absent += 1
+        else:
+            not_marked += 1
+    print(&quot;Present    :&quot;, present)
+    print(&quot;Absent     :&quot;, absent)
+    print(&quot;Not Marked :&quot;, not_marked)
+
+
+# Q13. Enter Student Exam Marks
+def enter_marks():
+    print(&quot;\n===== ENTER STUDENT EXAM MARKS =====&quot;)
+    adm_no = input(&quot;Enter Admission Number: &quot;)
+    if adm_no in students:
+        eng = float(input(&quot;English Marks: &quot;))
+        phy = float(input(&quot;Physics Marks: &quot;))
+        chem = float(input(&quot;Chemistry Marks: &quot;))
+        math = float(input(&quot;Maths Marks: &quot;))
+        cs = float(input(&quot;Computer Science Marks: &quot;))
+        total = eng + phy + chem + math + cs
+        students[adm_no][&quot;marks&quot;] = total
+        save_data()
+        print(&quot;Total Marks Saved:&quot;, total, &quot;/ 500&quot;)
+    else:
+        print(&quot;Student Not Found!&quot;)
+
+
+# Q14. View Student Result Card
+def view_result():
+    print(&quot;\n===== STUDENT RESULT CARD =====&quot;)
+    adm_no = input(&quot;Enter Admission Number: &quot;)
+    if adm_no in students:
+        total = students[adm_no][&quot;marks&quot;]
+        percent = total / 5
+        print(&quot;Student Name:&quot;, students[adm_no][&quot;name&quot;])
+        print(&quot;Class:&quot;, students[adm_no][&quot;class&quot;])
+        print(&quot;Total Marks:&quot;, total, &quot;/ 500&quot;)
+        print(&quot;Percentage:&quot;, round(percent, 2), &quot;%&quot;)
+    else:
+        print(&quot;Student Not Found!&quot;)
+
+
+# Q15. School Topper
+def school_topper():
+    print(&quot;\n===== SCHOOL TOPPER =====&quot;)
+    if len(students) == 0:
+        print(&quot;No Student Records Found!&quot;)
+    else:
+        top = &quot;&quot;
+        best = -1
+        for adm_no, d in students.items():
+            if d[&quot;marks&quot;] &gt; best:
+                best = d[&quot;marks&quot;]
+                top = adm_no
+        print(&quot;Topper    :&quot;, students[top][&quot;name&quot;])
+        print(&quot;Adm No.   :&quot;, top)
+        print(&quot;Class     :&quot;, students[top][&quot;class&quot;])
+        print(&quot;Marks     :&quot;, best, &quot;/ 500&quot;)
+
+
+# Q16. Collect School Fee
+def collect_fee():
+    print(&quot;\n===== SCHOOL FEE COLLECTION =====&quot;)
+    adm_no = input(&quot;Enter Admission Number: &quot;)
+    if adm_no in students:
+        print(&quot;Student Name:&quot;, students[adm_no][&quot;name&quot;])
+        amount = float(input(&quot;Enter Fee Amount (Rs.): &quot;))
+        if amount &gt; 0:
+            students[adm_no][&quot;fee_status&quot;] = &quot;Paid Rs.&quot; + str(amount)
+            save_data()
+            print(&quot;Fee Collected Successfully!&quot;)
+        else:
+            print(&quot;Invalid Amount!&quot;)
+    else:
+        print(&quot;Student Not Found!&quot;)
+
+
+# Q17. View Fee Payment Status
+def view_fee_status():
+    print(&quot;\n===== SCHOOL FEE STATUS REPORT =====&quot;)
+    if len(students) == 0:
+        print(&quot;No Student Records Found!&quot;)
+    else:
+        print(&quot;Adm No. | Name | Class | Fee Status&quot;)
+        for adm_no, d in students.items():
+            print(adm_no, &quot;|&quot;, d[&quot;name&quot;], &quot;|&quot;, d[&quot;class&quot;], &quot;|&quot;,
+                  d[&quot;fee_status&quot;])
+
+
+# Q18. Fee Defaulters List
+def fee_defaulters():
+    print(&quot;\n===== FEE DEFAULTERS LIST =====&quot;)
+    found = False
+    for adm_no, d in students.items():
+        if d[&quot;fee_status&quot;] == &quot;Pending&quot;:
+            print(adm_no, &quot;|&quot;, d[&quot;name&quot;], &quot;|&quot;, d[&quot;class&quot;], &quot;|&quot;, d[&quot;phone&quot;])
+            found = True
+    if not found:
+        print(&quot;No Pending Fees!&quot;)
+
+
+# Q19. Add New Teacher
+def add_teacher():
+    print(&quot;\n===== ADD NEW TEACHER =====&quot;)
+    emp_id = str(max([int(x) for x in teachers], default=500) + 1)
+    name = input(&quot;Enter Teacher Name: &quot;)
+    subject = input(&quot;Enter Subject: &quot;)
+    salary = float(input(&quot;Enter Monthly Salary (Rs.): &quot;))
+    teachers[emp_id] = {
+        &quot;name&quot;: name,
+        &quot;subject&quot;: subject,
+        &quot;salary&quot;: salary
+    }
+    save_data()
+    print(&quot;Teacher Added! Employee ID:&quot;, emp_id)
+
+
+# Q20. View All Teachers
+def view_teachers():
+    print(&quot;\n===== ALL SCHOOL TEACHERS =====&quot;)
+    if len(teachers) == 0:
+        print(&quot;No Teacher Records Found!&quot;)
+    else:
+        print(&quot;Emp ID | Name | Subject | Salary&quot;)
+        for emp_id, info in teachers.items():
+            print(emp_id, &quot;|&quot;, info[&quot;name&quot;], &quot;|&quot;, info[&quot;subject&quot;], &quot;| Rs.&quot;,
+                  info[&quot;salary&quot;])
+
+
+# Q21. Search Teacher by Employee ID
+def search_teacher():
+    print(&quot;\n===== SEARCH TEACHER =====&quot;)
+    emp_id = input(&quot;Enter Employee ID: &quot;)
+    if emp_id in teachers:
+        t = teachers[emp_id]
+        print(&quot;Name:&quot;, t[&quot;name&quot;])
+        print(&quot;Subject:&quot;, t[&quot;subject&quot;])
+        print(&quot;Salary: Rs.&quot;, t[&quot;salary&quot;])
+    else:
+        print(&quot;Teacher Not Found!&quot;)
+
+
+# Q22. Update Teacher Salary
+def update_teacher():
+    print(&quot;\n===== UPDATE TEACHER SALARY =====&quot;)
+    emp_id = input(&quot;Enter Employee ID: &quot;)
+    if emp_id in teachers:
+        print(&quot;Teacher Name:&quot;, teachers[emp_id][&quot;name&quot;])
+        new_sal = float(input(&quot;Enter New Salary: &quot;))
+        teachers[emp_id][&quot;salary&quot;] = new_sal
+        save_data()
+        print(&quot;Salary Updated Successfully!&quot;)
+    else:
+        print(&quot;Teacher Not Found!&quot;)
+
+
+# Q23. Delete Teacher Record
+def delete_teacher():
+    print(&quot;\n===== DELETE TEACHER RECORD =====&quot;)
+    emp_id = input(&quot;Enter Employee ID: &quot;)
+    if emp_id in teachers:
+        confirm = input(&quot;Confirm delete? (yes/no): &quot;)
+        if confirm.lower() == &quot;yes&quot;:
+            del teachers[emp_id]
+            save_data()
+            print(&quot;Teacher Record Deleted!&quot;)
+        else:
+            print(&quot;Deletion Cancelled!&quot;)
+    else:
+        print(&quot;Teacher Not Found!&quot;)
+
+
+# Q24. Add New Library Book
+def add_book():
+    print(&quot;\n===== ADD LIBRARY BOOK =====&quot;)
+    book_id = str(max([int(x) for x in books], default=200) + 1)
+    title = input(&quot;Enter Book Title: &quot;)
+    author = input(&quot;Enter Author Name: &quot;)
+    copies = int(input(&quot;Enter Number of Copies: &quot;))
+    books[book_id] = {
+        &quot;title&quot;: title,
+        &quot;author&quot;: author,
+        &quot;copies&quot;: copies
+    }
+    save_data()
+    print(&quot;Book Added! Book ID:&quot;, book_id)
+
+
+# Q25. View All Library Books
+def view_books():
+    print(&quot;\n===== LIBRARY BOOK CATALOG =====&quot;)
+    if len(books) == 0:
+        print(&quot;No Books Available!&quot;)
+    else:
+        print(&quot;Book ID | Title | Author | Copies&quot;)
+        for book_id, info in books.items():
+            print(book_id, &quot;|&quot;, info[&quot;title&quot;], &quot;|&quot;, info[&quot;author&quot;], &quot;|&quot;,
+                  info[&quot;copies&quot;])
+
+
+# Q26. Search Book by Title
+def search_book():
+    print(&quot;\n===== SEARCH BOOK BY TITLE =====&quot;)
+    word = input(&quot;Enter Title / Keyword: &quot;).lower()
+    found = False
+    for book_id, info in books.items():
+        if word in info[&quot;title&quot;].lower():
+            print(book_id, &quot;|&quot;, info[&quot;title&quot;], &quot;|&quot;, info[&quot;author&quot;], &quot;|&quot;,
+                  info[&quot;copies&quot;])
+            found = True
+    if not found:
+        print(&quot;No Matching Book Found!&quot;)
+
+
+# Q27. Issue Library Book
+def issue_book():
+    print(&quot;\n===== ISSUE LIBRARY BOOK =====&quot;)
+    book_id = input(&quot;Enter Book ID: &quot;)
+    if book_id in books:
+        if books[book_id][&quot;copies&quot;] &gt; 0:
+            books[book_id][&quot;copies&quot;] -= 1
+            save_data()
+            print(&quot;Book Issued! Remaining Copies:&quot;,
+                  books[book_id][&quot;copies&quot;])
+        else:
+            print(&quot;Book Out of Stock!&quot;)
+    else:
+        print(&quot;Book ID Not Found!&quot;)
+
+
+# Q28. Return Library Book
+def return_book():
+    print(&quot;\n===== RETURN LIBRARY BOOK =====&quot;)
+    book_id = input(&quot;Enter Book ID: &quot;)
+    if book_id in books:
+        books[book_id][&quot;copies&quot;] += 1
+        save_data()
+        print(&quot;Book Returned! Available Copies:&quot;, books[book_id][&quot;copies&quot;])
+    else:
+        print(&quot;Book ID Not Found!&quot;)
+
+
+# Q29. Delete Library Book
+def delete_book():
+    print(&quot;\n===== DELETE LIBRARY BOOK =====&quot;)
+    book_id = input(&quot;Enter Book ID: &quot;)
+    if book_id in books:
+        confirm = input(&quot;Confirm delete? (yes/no): &quot;)
+        if confirm.lower() == &quot;yes&quot;:
+            del books[book_id]
+            save_data()
+            print(&quot;Book Deleted Successfully!&quot;)
+        else:
+            print(&quot;Deletion Cancelled!&quot;)
+    else:
+        print(&quot;Book ID Not Found!&quot;)
+
+
+# Q30. Main Menu — Connect All Features
+def main():
+    menu = {
+        &quot;1&quot;: add_student, &quot;2&quot;: view_students,
+        &quot;3&quot;: search_student, &quot;4&quot;: update_student,
+        &quot;5&quot;: delete_student, &quot;6&quot;: mark_attendance,
+        &quot;7&quot;: view_attendance, &quot;8&quot;: enter_marks,
+        &quot;9&quot;: view_result, &quot;10&quot;: collect_fee,
+        &quot;11&quot;: view_fee_status, &quot;12&quot;: add_teacher,
+        &quot;13&quot;: view_teachers, &quot;14&quot;: update_teacher,
+        &quot;15&quot;: delete_teacher, &quot;16&quot;: add_book,
+        &quot;17&quot;: view_books, &quot;18&quot;: issue_book,
+        &quot;19&quot;: return_book, &quot;20&quot;: delete_book,
+        &quot;21&quot;: fee_defaulters, &quot;22&quot;: attendance_summary,
+        &quot;23&quot;: school_topper, &quot;24&quot;: search_teacher,
+        &quot;25&quot;: search_book, &quot;26&quot;: school_summary
+    }
+    while True:
+        print(&quot;\n1-5:Student 6-7:Attend 8-9:Marks&quot;)
+        print(&quot;10-11:Fee 12-15:Staff 16-20:Book&quot;)
+        print(&quot;21-26:Extra Reports 27:Exit&quot;)
+        ch = input(&quot;Enter Choice: &quot;)
+        if ch == &quot;27&quot;:
+            break
+        elif ch in menu:
+            menu[ch]()
+        else:
+            print(&quot;Invalid Choice!&quot;)
+
+
+if login():
+    main()
+</pre>
+</div>
+<p class="note">Use the search box to find a heading or keyword. The complete source is displayed on this page; download the Python file to run it in a Python 3 environment.</p>
+</main>
+<script>
+const original = document.getElementById('code').textContent;
+function filterCode(){
+ const q=document.getElementById('search').value.trim().toLowerCase();
+ const lines=original.split('\n');
+ if(!q){document.getElementById('code').textContent=original;return;}
+ const keep=new Set();
+ lines.forEach((line,i)=>{if(line.toLowerCase().includes(q)){for(let j=Math.max(0,i-2);j<=Math.min(lines.length-1,i+3);j++)keep.add(j);}});
+ document.getElementById('code').textContent=keep.size?[...keep].sort((a,b)=>a-b).map(i=>lines[i]).join('\n'):'No matching lines found.';
+}
+document.getElementById('search').addEventListener('input',filterCode);
+function downloadSource(){
+ const blob=new Blob([original],{type:'text/x-python;charset=utf-8'});
+ const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='School_Management_System_All_30_Programs.py';a.click();URL.revokeObjectURL(a.href);
+}
+</script>
+</body></html>
