@@ -1,0 +1,480 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Practical Work — All 30 Programs</title>
+<style>
+:root{color-scheme:dark;--bg:#090e19;--panel:#101827;--line:#26344b;--text:#e5edf8;--muted:#9aabc3}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.55 system-ui,Arial,sans-serif}
+header{padding:20px clamp(15px,4vw,40px);background:#111c30;border-bottom:1px solid var(--line)}
+h1{font-size:clamp(20px,3vw,28px);margin:0 0 4px}.sub{color:var(--muted);font-size:13px}
+main{max-width:1150px;margin:20px auto;padding:0 14px}
+.tools{display:flex;gap:8px;margin-bottom:12px}
+input{flex:1;min-width:0;background:var(--panel);border:1px solid var(--line);border-radius:8px;color:var(--text);padding:11px;font-size:14px}
+button{background:#164e63;border:0;border-radius:8px;color:white;padding:10px 13px;font-weight:600}
+.editor{background:var(--panel);border:1px solid var(--line);border-radius:11px;overflow:hidden}
+.bar{padding:10px 14px;border-bottom:1px solid var(--line);color:var(--muted);font-size:12px;display:flex;justify-content:space-between}
+pre{margin:0;padding:17px;overflow:auto;white-space:pre;tab-size:4;font:13px/1.7 ui-monospace,SFMono-Regular,Consolas,monospace;color:#dce8f7}
+.note{color:var(--muted);font-size:12px;margin:12px 2px}
+</style></head><body>
+<header><h1>Practical Work — Complete Code</h1><div class="sub">Programs 1–30 • Headings are Python-style # comments • Code only</div></header>
+<main>
+<div class="tools"><input id="find" type="search" placeholder="Find text in the code…"><button id="clear">Clear</button></div>
+<div class="editor"><div class="bar"><span>CODE VIEW</span><span>30 programs</span></div><pre id="code"># Program 1
+print(&quot;1. Add  2. Subtract  3. Multiply  4. Divide&quot;)
+choice = int(input(&quot;Enter your choice: &quot;))
+a = float(input(&quot;Enter first number: &quot;))
+b = float(input(&quot;Enter second number: &quot;))
+if choice == 1:
+    print(&quot;Result =&quot;, a + b)
+elif choice == 2:
+    print(&quot;Result =&quot;, a - b)
+elif choice == 3:
+    print(&quot;Result =&quot;, a * b)
+elif choice == 4:
+    if b != 0:
+        print(&quot;Result =&quot;, a / b)
+    else:
+        print(&quot;Division by zero is not possible&quot;)
+else:
+    print(&quot;Invalid choice&quot;)
+
+
+# Program 2
+n = int(input(&quot;Enter a number: &quot;))
+temp = n
+digits = len(str(n))
+total = 0
+while temp &gt; 0:
+    d = temp % 10
+    total += d ** digits
+    temp //= 10
+if total == n:
+    print(n, &quot;is an Armstrong number&quot;)
+else:
+    print(n, &quot;is not an Armstrong number&quot;)
+
+
+# Program 3
+lo = int(input(&quot;Enter lower limit: &quot;))
+hi = int(input(&quot;Enter upper limit: &quot;))
+print(&quot;Prime numbers between&quot;, lo, &quot;and&quot;, hi, &quot;are:&quot;)
+for n in range(lo, hi + 1):
+    if n &gt; 1:
+        for i in range(2, int(n ** 0.5) + 1):
+            if n % i == 0:
+                break
+        else:
+            print(n, end=&quot; &quot;)
+
+
+# Program 4
+n = int(input(&quot;Enter number of rows: &quot;))
+print(&quot;Pattern 1&quot;)
+for i in range(1, n + 1):
+    print(&quot;*&quot; * i)
+print(&quot;Pattern 2&quot;)
+for i in range(1, n + 1):
+    for j in range(1, i + 1):
+        print(j, end=&quot; &quot;)
+    print()
+print(&quot;Pattern 3&quot;)
+for i in range(1, n + 1):
+    print(&quot; &quot; * (n - i) + &quot;* &quot; * i)
+
+
+# Program 5
+n = int(input(&quot;Enter number of terms: &quot;))
+a, b = 0, 1
+print(&quot;Fibonacci series:&quot;)
+for i in range(n):
+    print(a, end=&quot; &quot;)
+    a, b = b, a + b
+
+
+# Program 6
+a = int(input(&quot;Enter first number: &quot;))
+b = int(input(&quot;Enter second number: &quot;))
+x, y = a, b
+while y != 0:
+    x, y = y, x % y
+gcd = x
+lcm = (a * b) // gcd
+print(&quot;GCD =&quot;, gcd)
+print(&quot;LCM =&quot;, lcm)
+
+
+# Program 7
+n = int(input(&quot;Enter a number: &quot;))
+temp = n
+rev = 0
+while temp &gt; 0:
+    rev = rev * 10 + temp % 10
+    temp //= 10
+print(&quot;Reverse of&quot;, n, &quot;is&quot;, rev)
+if rev == n:
+    print(n, &quot;is a palindrome&quot;)
+else:
+    print(n, &quot;is not a palindrome&quot;)
+
+
+# Program 8
+s = input(&quot;Enter a string: &quot;)
+v = c = d = sp = 0
+for ch in s:
+    if ch.isalpha():
+        if ch.lower() in &quot;aeiou&quot;:
+            v += 1
+        else:
+            c += 1
+    elif ch.isdigit():
+        d += 1
+    elif ch == &quot; &quot;:
+        sp += 1
+print(&quot;Vowels     =&quot;, v)
+print(&quot;Consonants =&quot;, c)
+print(&quot;Digits     =&quot;, d)
+print(&quot;Spaces     =&quot;, sp)
+
+
+# Program 9
+s = input(&quot;Enter a sentence: &quot;)
+words = s.split()
+print(&quot;Number of words:&quot;, len(words))
+print(&quot;Longest word:&quot;, max(words, key=len))
+rev = [w[::-1] for w in words]
+print(&quot;Each word reversed:&quot;, &quot; &quot;.join(rev))
+print(&quot;Title case:&quot;, s.title())
+
+
+# Program 10
+nums = [45, 12, 89, 34, 89, 67, 23]
+print(&quot;List:&quot;, nums)
+unique = list(set(nums))
+unique.sort()
+print(&quot;Largest        =&quot;, unique[-1])
+print(&quot;Second largest =&quot;, unique[-2])
+print(&quot;Sum            =&quot;, sum(nums))
+print(&quot;Average        =&quot;, round(sum(nums) / len(nums), 2))
+
+
+# Program 11
+a = [64, 34, 25, 12, 22, 11, 90]
+print(&quot;Original list:&quot;, a)
+n = len(a)
+for i in range(n - 1):
+    for j in range(n - 1 - i):
+        if a[j] &gt; a[j + 1]:
+            a[j], a[j + 1] = a[j + 1], a[j]
+print(&quot;Sorted list  :&quot;, a)
+
+
+# Program 12
+A = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+B = [[9, 8, 7], [6, 5, 4], [3, 2, 1]]
+C = [[0] * 3 for _ in range(3)]
+for i in range(3):
+    for j in range(3):
+        C[i][j] = A[i][j] + B[i][j]
+print(&quot;Sum of the two matrices:&quot;)
+for row in C:
+    print(row)
+
+
+# Program 13
+marks = {}
+n = int(input(&quot;How many students? &quot;))
+for i in range(n):
+    name = input(&quot;Enter name: &quot;)
+    m = int(input(&quot;Enter marks: &quot;))
+    marks[name] = m
+print(&quot;Records:&quot;, marks)
+top = max(marks, key=marks.get)
+print(&quot;Topper:&quot;, top, &quot;with&quot;, marks[top], &quot;marks&quot;)
+print(&quot;Class average:&quot;, round(sum(marks.values()) / len(marks), 2))
+
+
+# Program 14
+n = int(input(&quot;Enter a decimal number: &quot;))
+num = n
+binary = &quot;&quot;
+while num &gt; 0:
+    binary = str(num % 2) + binary
+    num //= 2
+print(&quot;Binary of&quot;, n, &quot;is&quot;, binary)
+print(&quot;Check using bin():&quot;, bin(n)[2:])
+
+
+# Program 15
+limit = int(input(&quot;Enter the limit: &quot;))
+print(&quot;Perfect numbers up to&quot;, limit, &quot;are:&quot;)
+for n in range(2, limit + 1):
+    s = 0
+    for i in range(1, n):
+        if n % i == 0:
+            s += i
+    if s == n:
+        print(n, end=&quot; &quot;)
+
+
+# Program 16
+def calculate(p, r=5, t=1):
+    si = (p * r * t) / 100
+    amount = p + si
+    return si, amount
+si, amt = calculate(10000, 6, 2)
+print(&quot;Simple Interest =&quot;, si, &quot; Amount =&quot;, amt)
+si, amt = calculate(5000)
+print(&quot;Using default rate and time:&quot;, si, amt)
+
+
+# Program 17
+def factorial(n):
+    if n == 0 or n == 1:
+        return 1
+    return n * factorial(n - 1)
+def fib(n):
+    if n &lt;= 1:
+        return n
+    return fib(n - 1) + fib(n - 2)
+num = int(input(&quot;Enter a number: &quot;))
+print(&quot;Factorial of&quot;, num, &quot;=&quot;, factorial(num))
+print(&quot;Fibonacci series:&quot;, end=&quot; &quot;)
+for i in range(num):
+    print(fib(i), end=&quot; &quot;)
+
+
+# Program 18
+def binary_search(lst, key):
+    low, high = 0, len(lst) - 1
+    while low &lt;= high:
+        mid = (low + high) // 2
+        if lst[mid] == key:
+            return mid
+        elif lst[mid] &lt; key:
+            low = mid + 1
+        else:
+            high = mid - 1
+    return -1
+data = [5, 12, 23, 34, 45, 56, 67, 78, 89]
+key = int(input(&quot;Enter element to search: &quot;))
+pos = binary_search(data, key)
+if pos != -1:
+    print(key, &quot;found at index&quot;, pos)
+else:
+    print(key, &quot;not found in the list&quot;)
+
+
+# Program 19
+stack = []
+while True:
+    print(&quot;1.Push  2.Pop  3.Peek  4.Display  5.Exit&quot;)
+    ch = int(input(&quot;Enter choice: &quot;))
+    if ch == 1:
+        item = int(input(&quot;Enter item: &quot;))
+        stack.append(item)
+        print(item, &quot;pushed&quot;)
+    elif ch == 2:
+        if len(stack) == 0:
+            print(&quot;Stack Underflow&quot;)
+        else:
+            print(stack.pop(), &quot;popped&quot;)
+    elif ch == 3:
+        if len(stack) == 0:
+            print(&quot;Stack is empty&quot;)
+        else:
+            print(&quot;Top element:&quot;, stack[-1])
+    elif ch == 4:
+        if len(stack) == 0:
+            print(&quot;Stack is empty&quot;)
+        else:
+            print(&quot;Stack (top to bottom):&quot;, stack[::-1])
+    elif ch == 5:
+        print(&quot;Program ended&quot;)
+        break
+    else:
+        print(&quot;Invalid choice&quot;)
+
+
+# Program 20
+def is_balanced(expr):
+    stack = []
+    pairs = {&#x27;)&#x27;: &#x27;(&#x27;, &#x27;]&#x27;: &#x27;[&#x27;, &#x27;}&#x27;: &#x27;{&#x27;}
+    for ch in expr:
+        if ch in &quot;([{&quot;:
+            stack.append(ch)
+        elif ch in &quot;)]}&quot;:
+            if not stack or stack.pop() != pairs[ch]:
+                return False
+    return len(stack) == 0
+for e in [&quot;(a+b)*{c-d}&quot;, &quot;((a+b)*[c-d)]&quot;, &quot;{[(x+y)*z]}&quot;]:
+    if is_balanced(e):
+        print(e, &quot;-&gt;&quot;, &quot;Balanced&quot;)
+    else:
+        print(e, &quot;-&gt;&quot;, &quot;Not Balanced&quot;)
+
+
+# Program 21
+n = int(input(&quot;How many lines to write? &quot;))
+f = open(&quot;notes.txt&quot;, &quot;w&quot;)
+for i in range(n):
+    line = input(&quot;Enter line &quot; + str(i + 1) + &quot;: &quot;)
+    f.write(line + &quot;\n&quot;)
+f.close()
+print(&quot;File created successfully&quot;)
+print(&quot;Contents of notes.txt:&quot;)
+f = open(&quot;notes.txt&quot;, &quot;r&quot;)
+for line in f:
+    print(line, end=&quot;&quot;)
+f.close()
+
+
+# Program 22
+import pickle
+f = open(&quot;student.dat&quot;, &quot;wb&quot;)
+n = int(input(&quot;How many records? &quot;))
+for i in range(n):
+    roll = int(input(&quot;Enter roll no: &quot;))
+    name = input(&quot;Enter name: &quot;)
+    marks = int(input(&quot;Enter marks: &quot;))
+    pickle.dump([roll, name, marks], f)
+f.close()
+print(&quot;Records written successfully&quot;)
+f = open(&quot;student.dat&quot;, &quot;rb&quot;)
+print(&quot;Roll  Name      Marks&quot;)
+try:
+    while True:
+        r = pickle.load(f)
+        print(&quot;%-6d%-10s%d&quot; % (r[0], r[1], r[2]))
+except EOFError:
+    f.close()
+
+
+# Program 23
+import pickle
+roll = int(input(&quot;Enter roll no to update: &quot;))
+newmarks = int(input(&quot;Enter new marks: &quot;))
+records = []
+found = False
+f = open(&quot;student.dat&quot;, &quot;rb&quot;)
+try:
+    while True:
+        records.append(pickle.load(f))
+except EOFError:
+    f.close()
+for r in records:
+    if r[0] == roll:
+        r[2] = newmarks
+        found = True
+if found:
+    f = open(&quot;student.dat&quot;, &quot;wb&quot;)
+    for r in records:
+        pickle.dump(r, f)
+    f.close()
+    print(&quot;Record updated&quot;)
+else:
+    print(&quot;Record not found&quot;)
+print(&quot;File contents now:&quot;)
+for r in records:
+    print(r)
+
+
+# Program 24
+import csv
+f = open(&quot;emp.csv&quot;, &quot;w&quot;, newline=&quot;&quot;)
+w = csv.writer(f)
+w.writerow([&quot;EmpID&quot;, &quot;Name&quot;, &quot;Salary&quot;])
+w.writerows([[101, &quot;Anil&quot;, 45000], [102, &quot;Sunita&quot;, 52000],
+             [103, &quot;Rohit&quot;, 38000]])
+f.close()
+total = 0
+high = []
+f = open(&quot;emp.csv&quot;, &quot;r&quot;)
+r = csv.reader(f)
+next(r)
+for row in r:
+    print(row)
+    total += int(row[2])
+    if int(row[2]) &gt; 40000:
+        high.append(row[1])
+f.close()
+print(&quot;Total salary =&quot;, total)
+print(&quot;Salary above 40000:&quot;, high)
+
+
+# Program 25
+for attempt in range(1, 4):
+    print(&quot;Attempt&quot;, attempt)
+    try:
+        a = int(input(&quot;Enter numerator: &quot;))
+        b = int(input(&quot;Enter denominator: &quot;))
+        print(&quot;Result =&quot;, a / b)
+    except ValueError:
+        print(&quot;Please enter integers only&quot;)
+    except ZeroDivisionError:
+        print(&quot;Denominator cannot be zero&quot;)
+    else:
+        print(&quot;Division successful&quot;)
+    finally:
+        print(&quot;Attempt over&quot;)
+
+
+# Program 26
+CREATE TABLE Student (RollNo INT PRIMARY KEY, Name VARCHAR(20), Class INT,
+                      Marks INT, City VARCHAR(15));
+INSERT INTO Student VALUES
+(1, &#x27;Asha&#x27;, 12, 91, &#x27;Delhi&#x27;),
+(2, &#x27;Ravi&#x27;, 12, 84, &#x27;Mumbai&#x27;),
+(3, &#x27;Neha&#x27;, 12, 96, &#x27;Delhi&#x27;),
+(4, &#x27;Kabir&#x27;, 11, 78, &#x27;Pune&#x27;),
+(5, &#x27;Isha&#x27;, 11, 88, &#x27;Mumbai&#x27;),
+(6, &#x27;Arjun&#x27;, 11, 67, &#x27;Delhi&#x27;),
+(7, &#x27;Meera&#x27;, 12, 73, &#x27;Pune&#x27;);
+SELECT * FROM Student;
+
+
+# Program 27
+SELECT Name, Marks FROM Student
+WHERE Marks BETWEEN 75 AND 90
+ORDER BY Marks DESC;
+SELECT * FROM Student
+WHERE Name LIKE &#x27;A%&#x27; AND City = &#x27;Delhi&#x27;;
+
+
+# Program 28
+SELECT Class, COUNT(*) AS Total, ROUND(AVG(Marks), 2) AS Average,
+       MAX(Marks) AS Highest
+FROM Student
+GROUP BY Class;
+SELECT City, COUNT(*) AS Students FROM Student
+GROUP BY City
+HAVING COUNT(*) &gt;= 2;
+
+
+# Program 29
+UPDATE Student SET Marks = Marks + 5 WHERE Class = 11;
+DELETE FROM Student WHERE City = &#x27;Pune&#x27; AND Marks &lt; 75;
+SELECT RollNo, Name, Class, Marks FROM Student
+ORDER BY RollNo;
+
+
+# Program 30
+CREATE TABLE Sports (RollNo INT, Game VARCHAR(15));
+INSERT INTO Sports VALUES (1, &#x27;Chess&#x27;), (3, &#x27;Badminton&#x27;),
+(4, &#x27;Cricket&#x27;), (5, &#x27;Chess&#x27;), (6, &#x27;Football&#x27;);
+SELECT S.Name, G.Game FROM Student S, Sports G
+WHERE S.RollNo = G.RollNo;
+SELECT G.Game, COUNT(*) AS Players
+FROM Student S, Sports G
+WHERE S.RollNo = G.RollNo
+GROUP BY G.Game;
+</pre></div>
+<p class="note">Questions and printed sample outputs are intentionally omitted. The original program/query code is shown under each # Program heading.</p>
+</main>
+<script>
+const pre=document.getElementById('code'), original=pre.textContent, find=document.getElementById('find');
+find.addEventListener('input',()=>{const q=find.value.trim().toLowerCase();if(!q){pre.textContent=original;return;}
+const lines=original.split('\n'), keep=new Set();
+lines.forEach((line,i)=>{if(line.toLowerCase().includes(q)){for(let j=Math.max(0,i-2);j<=Math.min(lines.length-1,i+3);j++)keep.add(j);}});
+pre.textContent=keep.size?[...keep].sort((a,b)=>a-b).map(i=>lines[i]).join('\n'):'No matching code found.';});
+document.getElementById('clear').onclick=()=>{find.value='';pre.textContent=original;};
+</script></body></html>
